@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 
-
+app.set('view engine', 'esj');
 
 app.get('/', (req, res) => {
-  res.send('Hello There!');
+  res.render('home');
 });
 
 app.listen(3000);
