@@ -1,16 +1,6 @@
 const express = require('express');
 const app = express();
 
-app.set('view engine', 'esj');
-
-app.get('/', (req, res) => {
-  res.render('home');
-});
-
-app.listen(3000);
-
-
-
 
 const RESTAURANT = {
     name: 'The Green Byte Bistro',
@@ -59,7 +49,23 @@ const RESTAURANT = {
         details: 'Crispy and lightly seasoned string bean fries, served in a pattern for a fun twist.'
       }
     ]
-  };
+};
   
+  app.set('view engine', 'ejs');
 
+  app.get('/', (req, res) => {
+    res.render('home', {restaurant: RESTAURANT });
+  });
 
+  app.get('/menu', (req, res) =>{
+    res.render('menu', {menu: RESTAURANT.menu });
+  });
+  
+  app.get('/menu/:category', (req, res) => {
+    const category = req.params.category;
+    const menuItems = RESTAURANT.menu.filter(item => item.category === category);
+    const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
+    res.render('category', { menuItems: menuItems, category: capitalizedCategory });
+});
+
+  app.listen(3000);
